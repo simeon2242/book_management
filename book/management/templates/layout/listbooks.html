@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Librairie des merveilles | Liste des livres</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f4f6fa 0%, #eef2f5 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            color: #1e2a3e;
+            line-height: 1.5;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Conteneur principal élégant */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 2.5rem;
+            backdrop-filter: blur(0px);
+            padding: 2rem 1.8rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* En-tête avec touche raffinée */
+        .library-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .library-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1e2f3f, #2c4c6e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .library-header .sous-titre {
+            font-size: 1.1rem;
+            color: #4a627a;
+            border-top: 2px solid rgba(60, 110, 135, 0.25);
+            display: inline-block;
+            padding-top: 0.75rem;
+            font-weight: 400;
+            backdrop-filter: blur(4px);
+        }
+
+        .badge-count {
+            background: #e9edf2;
+            color: #1f4e6e;
+            border-radius: 60px;
+            padding: 0.25rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 0.75rem;
+            letter-spacing: 0.3px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+        }
+
+        /* Grille des livres - design moderne & flexible */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* Carte livre : douceur, élégance, profondeur */
+        .book-card {
+            background: #ffffff;
+            border-radius: 1.75rem;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(0px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid rgba(125, 155, 175, 0.2);
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 24px 36px -12px rgba(0, 32, 64, 0.2);
+            border-color: rgba(88, 130, 160, 0.4);
+        }
+
+        /* Zone icon / illustration */
+        .book-cover-icon {
+            background: linear-gradient(125deg, #f8fafd 0%, #eef3fc 100%);
+            text-align: center;
+            padding: 2rem 0 1.4rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .book-cover-icon span {
+            font-size: 4rem;
+            display: inline-block;
+            filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.08));
+            transition: transform 0.25s ease;
+        }
+
+        .book-card:hover .book-cover-icon span {
+            transform: scale(1.03) rotate(2deg);
+        }
+
+        /* Contenu texte */
+        .book-info {
+            padding: 1.5rem 1.3rem 1.6rem 1.3rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .book-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #0f2b3b;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.25rem;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #5b6f82;
+            letter-spacing: -0.2px;
+            border-left: 3px solid #7fa1c1;
+            padding-left: 0.7rem;
+            margin: 0.2rem 0 0.2rem 0;
+        }
+
+        .detail-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 0.5rem 0 0.2rem 0;
+            gap: 0.5rem;
+        }
+
+        .book-year {
+            background: #eef2f7;
+            padding: 0.2rem 0.7rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2c5a7a;
+            letter-spacing: 0.3px;
+        }
+
+        .book-genre {
+            background: #f1e9da;
+            padding: 0.2rem 0.7rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #7b5e3c;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #f4b642;
+        }
+
+        .rating-stars {
+            color: #f5b042;
+            font-weight: 500;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.05);
+        }
+
+        .rating-text {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #6c828e;
+            background: #f0f4f8;
+            padding: 0.15rem 0.55rem;
+            border-radius: 20px;
+        }
+
+        /* petit séparateur esthétique */
+        .book-divider {
+            height: 2px;
+            background: linear-gradient(90deg, #cbdbe0, transparent);
+            width: 40px;
+            margin: 0.4rem 0;
+        }
+
+        /* pied de carte optionnel */
+        .book-meta-footer {
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: #8f9eb0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        /* responsive adjustments */
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .container {
+                padding: 1.2rem;
+            }
+            .library-header h1 {
+                font-size: 2rem;
+            }
+            .books-grid {
+                gap: 1.2rem;
+            }
+            .book-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .book-info {
+                padding: 1rem;
+            }
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Animation légère d’entrée */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .book-card {
+            animation: fadeUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* délais progressifs pour chaque carte (naturel) */
+        .book-card:nth-child(1) { animation-delay: 0.02s; }
+        .book-card:nth-child(2) { animation-delay: 0.07s; }
+        .book-card:nth-child(3) { animation-delay: 0.12s; }
+        .book-card:nth-child(4) { animation-delay: 0.17s; }
+        .book-card:nth-child(5) { animation-delay: 0.22s; }
+        .book-card:nth-child(6) { animation-delay: 0.27s; }
+        .book-card:nth-child(7) { animation-delay: 0.32s; }
+        .book-card:nth-child(8) { animation-delay: 0.37s; }
+
+        /* pied de page discret */
+        .footer-note {
+            text-align: center;
+            margin-top: 3.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(90, 115, 135, 0.2);
+            font-size: 0.8rem;
+            color: #6b8aaa;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="library-header">
+        <h1>📚 Bibliothèque imaginaire</h1>
+        <div class="sous-titre">Une sélection d'œuvres intemporelles</div>
+        <div class="badge-count">✨ 8 livres remarquables ✨</div>
+        <a href="{% url 'create-book' %}">New Book</a>
+
+    </div>
+
+    <div class="books-grid">
+        <!-- Livre 1 - Gatsby le magnifique -->
+        
+        {% for book in books %}
+            
+        
+            
+        <div class="book-card">
+            <div class="book-cover-icon">
+                <span>📖✨</span>
+            </div>
+            <div class="book-info">
+                <h3 class="book-title">{{book.title}}</h3>
+                <p class="book-author">{{book.author}}</p>
+                <div class="detail-row">
+                    <span class="book-year">{{book.published}}</span>
+                    <span class="book-genre">{{book.category}}</span>
+                </div>
+                <div class="book-divider"></div>
+                <div class="rating">
+                    <span class="rating-stars">★★★★☆</span>
+                    <span class="rating-text">4.2 / 5</span>
+                </div>
+                <div class="book-meta-footer">
+                    <span>📘 {{book.pages}} pages</span>
+                    <span>💬 Roman emblématique</span>
+                </div>
+                <div>
+                    <a href="">Voir</a>
+                    <a href="{% url 'update-book' book.id %}">Modifier</a>
+                    <a href="{% url 'delete-book' book.id %}">Supprimer</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        
+        </div>
+    </div>
+
+    <div class="footer-note">
+        📚 Une sélection de classiques & merveilles — chaque livre raconte une histoire unique.
+    </div>
+</div>
+</body>
+</html>
